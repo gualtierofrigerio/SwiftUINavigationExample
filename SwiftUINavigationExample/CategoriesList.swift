@@ -27,13 +27,35 @@ struct CategoriesList : View {
     @EnvironmentObject var coordinator:Coordinator
     
     var questionsList = DynamicNavigationDestinationLink(id:\Category.title.self) { category in
-        QuestionsList(model:QuestionsListModel(category:category))
+            QuestionsList(model:QuestionsListModel(category:category))
         }
     
     var body: some View {
         List(dataSource.categories, id:\.title) { category in
             Button(action: {
                 self.questionsList.presentedData?.value = category
+            }) {
+               CategoryRow(category:category)
+            }
+        }
+        .navigationBarTitle("Categories")
+    }
+}
+
+struct CategoriesListAlt : View {
+    var dataSource:DataSource
+    @EnvironmentObject var coordinator:Coordinator
+    
+    var questionsList = DynamicNavigationDestinationLink(id:\Category.title.self) { category in
+            QuestionsList(model:QuestionsListModel(category:category))
+        }
+    
+    var body: some View {
+        List(dataSource.categories, id:\.title) { category in
+            Button(action: {
+                DataSource.performLongOperationOnCategory(category) { result in
+                    self.questionsList.presentedData?.value = result
+                }
             }) {
                CategoryRow(category:category)
             }
