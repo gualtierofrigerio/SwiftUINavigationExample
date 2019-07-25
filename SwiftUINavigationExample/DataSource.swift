@@ -54,6 +54,20 @@ class DataSource {
 }
 
 extension DataSource {
+    class func getQuestionsFromCategory(_ category:Category, callback: @escaping (([Question]) -> Void)) {
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            callback(category.questions)
+        }
+    }
+    
+    class func performLongOperationOnCategory(_ category:Category, result: @escaping ((Category) ->Void )) {
+        Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
+            result(category)
+        }
+    }
+}
+
+extension DataSource {
     
     private func addQuestionsToCategories() {
         for index in 0..<categories.count {
