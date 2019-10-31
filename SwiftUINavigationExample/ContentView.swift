@@ -35,6 +35,7 @@ struct EmptyView: View {
 struct ContentView: View {
     @EnvironmentObject var coordinator:Coordinator
     @State var showModal = false
+    @State var showView = false
     @State var tag:Int? = nil
     
     var body: some View {
@@ -44,25 +45,32 @@ struct ContentView: View {
                     Text("Show categories")
                 }
                 Button(action: {
-                    self.showModal = true
+                    self.showView = true
                 }, label: {
-                    Text("show modal")
+                    Text("show view")
                 })
                 Button(action: {
                     self.tag = 1
                 }, label: {
-                    Text("show modal tag 1")
+                    Text("show view tag 1")
+                })
+                Button(action: {
+                    self.showModal = true
+                }, label : {
+                    Text("show modal")
                 })
                 NavigationLink(destination: MyModal()) {
-                    Text("push modal")
+                    Text("push view")
                 }
-                NavigationLink(destination: MyModal(), isActive: $showModal) {
+                NavigationLink(destination: MyModal(), isActive: $showView) {
                     EmptyView()
                 }
                 NavigationLink(destination: MyModal(), tag: 1, selection: $tag) {
                     EmptyView()
                 }
             }
+        }.sheet(isPresented: $showModal) {
+            MyModal()
         }
     }
 }
