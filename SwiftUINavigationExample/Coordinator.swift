@@ -16,7 +16,7 @@ enum Page {
     case detail
 }
 
-class Coordinator: BindableObject {
+class Coordinator: ObservableObject {
     
     var willChange = PassthroughSubject<Void, Never>()
     
@@ -27,31 +27,36 @@ class Coordinator: BindableObject {
         viewsFactory = ViewsFactory(dataSource: dataSource)
     }
     
-//    func tapOnCategory(_ category:Category) {
-//        viewsFactory.createQuestionsList(forCategory:category)
-//    }
+    /*var list:NavigationLink<Category, String, QuestionsList>?
     
+    var questionsList = NavigationLink(id:\Category.title.self) { category in
+            QuestionsList(model:QuestionsListModel(category:category))
+            }
+    */
     func getListOfCategories() -> some View {
         return viewsFactory.categoriesList
     }
+    
+    func getQuestionList(_ category:Category) -> some View {
+        QuestionsList(model:QuestionsListModel(category:category))
+    }
+    
+    func getQuestionsForCategory(_ category:Category, callback: @escaping (([Question]) -> Void)) {
+        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+            callback(category.questions)
+        }
+    }
 }
+
 
 class ViewsFactory {
     
     let dataSource:DataSource
     var categoriesList:CategoriesList
     
-//    var questionsList = DynamicNavigationDestinationLink(id:\Category.title.self) { category in
-//         QuestionsList(questions:category.questions)
-//    }
-    
     init(dataSource:DataSource) {
         self.dataSource = dataSource
         print("create categories list")
         self.categoriesList = CategoriesList(dataSource: dataSource)
     }
-    
-//    func createQuestionsList(forCategory category:Category) {
-//        self.questionsList.presentedData?.value = category
-//    }
 }

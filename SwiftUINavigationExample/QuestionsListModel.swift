@@ -15,7 +15,7 @@ enum AnswerType {
     case unanswered
 }
 
-class QuestionsListModel : BindableObject {
+class QuestionsListModel : ObservableObject {
     var willChange = PassthroughSubject<Void, Never>()
     var questions:[Question]
     var category:Category

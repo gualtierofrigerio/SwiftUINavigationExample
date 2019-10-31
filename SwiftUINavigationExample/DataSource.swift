@@ -9,6 +9,7 @@
 import Foundation
 
 struct Category:Codable {
+    var id:Int
     var title:String
     var color:String
     var questions:[Question]
@@ -92,7 +93,7 @@ extension DataSource {
                 }
             }
             if !found {
-                categories.append(Category(title:category, color:"", questions: [question]))
+                categories.append(Category(id: categories.count + 1, title:category, color:"", questions: [question]))
             }
         }
         return categories

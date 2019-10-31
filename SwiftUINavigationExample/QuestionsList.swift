@@ -34,7 +34,7 @@ struct QuestionsList : View {
     
     @State private var currentQuestionId = 0
     @State private var showAnswers = false
-    @ObjectBinding var model:QuestionsListModel
+    @ObservedObject var model:QuestionsListModel
     
     var body: some View {
         List(model.questions, id:\.id) { question in
@@ -57,7 +57,7 @@ extension QuestionsList {
             return ActionSheet(title: Text("Error"), message: Text("Couldn't find your question"), buttons: [.cancel()])
         }
         for answer in question.answers {
-            buttons.append(.default(Text(answer), onTrigger: {
+            buttons.append(.default(Text(answer), action: {
                 self.checkAnswer(answer: answer, forQuestion: question)
             }))
         }
