@@ -17,9 +17,6 @@ enum Page {
 }
 
 class Coordinator: ObservableObject {
-    
-    var willChange = PassthroughSubject<Void, Never>()
-    
     let dataSource = DataSource()
     let viewsFactory:ViewsFactory
     
@@ -27,12 +24,6 @@ class Coordinator: ObservableObject {
         viewsFactory = ViewsFactory(dataSource: dataSource)
     }
     
-    /*var list:NavigationLink<Category, String, QuestionsList>?
-    
-    var questionsList = NavigationLink(id:\Category.title.self) { category in
-            QuestionsList(model:QuestionsListModel(category:category))
-            }
-    */
     func getListOfCategories() -> some View {
         return viewsFactory.categoriesList
     }
