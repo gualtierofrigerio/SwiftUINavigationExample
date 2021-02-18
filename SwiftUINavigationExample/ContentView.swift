@@ -26,12 +26,6 @@ struct MyModal: View {
     }
 }
 
-struct EmptyView: View {
-    var body: some View {
-        Spacer()
-    }
-}
-
 struct ContentView: View {
     @EnvironmentObject var coordinator:Coordinator
     @State var showModal = false
@@ -62,12 +56,8 @@ struct ContentView: View {
                 NavigationLink(destination: MyModal()) {
                     Text("push view")
                 }
-                NavigationLink(destination: MyModal(), isActive: $showView) {
-                    EmptyView()
-                }
-                NavigationLink(destination: MyModal(), tag: 1, selection: $tag) {
-                    EmptyView()
-                }
+                NavigationLink(destination: MyModal(), isActive: $showView) {}
+                NavigationLink(destination: MyModal(), tag: 1, selection: $tag) {}
             }
         }.sheet(isPresented: $showModal) {
             MyModal()
